@@ -72,7 +72,7 @@ char	*get_next_line(int fd)
 	char		*buf;
 	int			r;
 
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buf = malloc(BUFFER_SIZE + 1);
 	if (!buf)
@@ -80,8 +80,8 @@ char	*get_next_line(int fd)
 	while (!check_line(static_line))
 	{
 		r = read(fd, buf, BUFFER_SIZE);
-		if (r == 0)
-			break ;
+		if (r <= 0)
+			return (free(buf), NULL);
 		buf[r] = '\0';
 		if (!static_line)
 			static_line = ft_strjoin("", buf);
@@ -93,28 +93,6 @@ char	*get_next_line(int fd)
 	line = get_full_line(static_line);
 	free(static_line);
 	static_line = ft_strjoin("", temp);
+	free(temp);
 	return (line);
 }
-
-/*int	main(void)
-{
-	int	fd;
-
-	fd = open("file", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	return (0);
-}*/
