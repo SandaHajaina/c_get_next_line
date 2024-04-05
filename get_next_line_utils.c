@@ -34,6 +34,42 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	unsigned int	i;
+	char			cc;
+
+	if (!s)
+		return (NULL);
+	cc = (char)c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (s[i] == cc)
+		return ((char *)&s[i]);
+	return (NULL);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	unsigned char	*tmp;
+	size_t			i;
+
+	if (size != 0 && count > ((size_t)-1 / size))
+		return (0);
+	tmp = (void *)malloc(count * size);
+	if (!tmp)
+		return (0);
+	i = 0;
+	while (i < count * size)
+		tmp[i++] = 0;
+	return (tmp);
+}
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -46,7 +82,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*str;
 	size_t	i;
