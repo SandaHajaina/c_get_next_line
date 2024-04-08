@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 static char	*get_line_static(char **str)
 {
@@ -47,12 +46,16 @@ char	*get_next_line(int fd)
 	int			r;
 
 	r = 1;
-	buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	while (r != 0 && !ft_strchr(static_line, '\n'))
 	{
 		r = read(fd, buf, BUFFER_SIZE);
 		if (r < 0)
+		{
+			free(static_line);
+			static_line = NULL;
 			return (free(buf), NULL);
+		}
 		buf[r] = '\0';
 		temp = ft_strjoin(static_line, buf);
 		free(static_line);
